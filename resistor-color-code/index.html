@@ -117,10 +117,11 @@ let bands = 4;
 let sel = { d1:1, d2:0, d3:0, mul:1, tol:2, tcr:0 };
 
 function fmt(ohms) {
-  if (ohms >= 1e9) return (ohms/1e9) + " GΩ";
-  if (ohms >= 1e6) return (ohms/1e6) + " MΩ";
-  if (ohms >= 1e3) return (ohms/1e3) + " kΩ";
-  return ohms + " Ω";
+  const r = (n) => (Math.round(n * 100) / 100).toString();
+  if (ohms >= 1e9) return r(ohms/1e9) + " GΩ";
+  if (ohms >= 1e6) return r(ohms/1e6) + " MΩ";
+  if (ohms >= 1e3) return r(ohms/1e3) + " kΩ";
+  return r(ohms) + " Ω";
 }
 function nearestE12(v) {
   const exp = Math.floor(Math.log10(v));
