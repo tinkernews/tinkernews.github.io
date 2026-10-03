@@ -9,6 +9,9 @@
 <meta property="og:title" content="ESP32 DevKit V1 Pinout (38-pin) — Interactive Reference">
 <meta property="og:description" content="Per-pin deep links, ADC/touch/PWM flags, strapping + safe-GPIO warnings. Print-ready.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://tinkernews.github.io/og/og-esp32-pinout.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tinkernews.github.io/og/og-esp32-pinout.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
  {"@type":"Question","name":"Which pins are safe to use on the ESP32 DevKit V1 at boot?","acceptedAnswer":{"@type":"Answer","text":"GPIO 0, 2, 5, 12 and 15 are strapping pins: their state at reset selects boot mode and flash voltage. Use them only for signals that tolerate being pulled at power-up. GPIO 6-11 are wired to the flash chip and must never be used. The safest general-purpose pins are 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32 and 33."}},
@@ -60,7 +63,7 @@
   <h1>ESP32 DevKit V1 Pinout — 38-pin (WROOM)</h1>
   <p>The interactive pinout reference: per-pin deep links for forum answers, ADC/touch/PWM flags, and the strapping &amp; safe-GPIO warnings the datasheet buries. Print-ready.</p>
 </header>
-<nav class="crumbs"><a href="https://www.tinkernews.com/tools/">Tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
+<nav class="crumbs"><a href="https://tinkernews.github.io/tools/">All tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
 <main>
   <div class="actions">
     <button class="btn" onclick="window.print()">🖨 Print / Save as PDF</button>
