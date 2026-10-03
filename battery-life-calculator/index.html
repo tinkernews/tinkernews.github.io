@@ -97,7 +97,7 @@ const $ = id => document.getElementById(id);
 function compute() {
   const mah = +$("mah").value, act = +$("active").value, wake = +$("wake").value,
         cycles = +$("cycles").value, sl = +$("sleep").value, usable = +$("usable").value;
-  const activePerDay = cycles * (wake / 1000) * act;               // mAh/day
+  const activePerDay = cycles * (wake / 3600000) * act;            // mAh/day (ms → hours)
   const sleepPerDay = (24 - cycles * wake / 3600000) * (sl / 1000); // mAh/day
   const perDay = activePerDay + sleepPerDay;
   const eff = mah * (usable / 100);
