@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WS2812B / NeoPixel Power Calculator — PSU, Fuse &amp; Injection | TinkerNews</title>
+<meta name="description" content="How big a power supply for your WS2812B / NeoPixel strip? LED count, brightness and injection spacing → PSU wattage, fuse rating and wire gauge. Realistic 20mA vs worst-case 60mA toggle.">
+<link rel="canonical" href="https://www.tinkernews.com/tools/ws2812b-power-calculator">
+<meta property="og:title" content="WS2812B / NeoPixel Power Calculator">
+<meta property="og:description" content="PSU size, fuse and injection plan from LED count and brightness. Worst-case vs realistic draw.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"How many amps does a 5m WS2812B strip draw?","acceptedAnswer":{"@type":"Answer","text":"A 60 LED/m strip is 300 LEDs. Worst case at full white is 60mA per LED = 18A (90W at 5V). Realistic animated content averages 20mA per LED = 6A. Size the PSU for worst case if you ever run full white; otherwise budget 30-40% above the realistic figure."}},
+ {"@type":"Question","name":"How often should I inject power into a LED strip?","acceptedAnswer":{"@type":"Answer","text":"Every 2-3 meters at 5V for 60 LED/m strips, and always at both ends. Voltage drop (not current capacity) is the limit — copper in cheap strip flex is thin. For runs over 5m, feed 5V in the middle and both ends, or use thicker feed wires."}},
+ {"@type":"Question","name":"What fuse should I use for a WS2812B project?","acceptedAnswer":{"@type":"Answer","text":"Size a blade fuse at ~20% above your worst-case strip draw and place it within 15cm of the power supply. A 300-LED strip at full white (18A) needs a 20-25A fuse on the supply line — or power separate segments from separate fused rails."}}]}
+</script>
+<style>
+  :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --warn:#d97706; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--ink); color:#fff; padding:28px 20px 22px; }
+  header h1 { margin:0 0 6px; font-size:clamp(22px,4vw,34px); }
+  header p { margin:0; color:#cbd5e1; max-width:70ch; }
+  nav.crumbs { max-width:1100px; margin:0 auto; padding:10px 20px 0; font-size:14px; }
+  nav.crumbs a { color:var(--acc); text-decoration:none; }
+  main { max-width:1100px; margin:0 auto; padding:16px 20px 60px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin:16px 0; }
+  .row { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+  label { display:block; font-size:13px; color:var(--mut); margin-bottom:4px; }
+  input, select { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:9px; font-size:15px; }
+  .result { font-size:clamp(26px,5vw,42px); font-weight:800; margin:12px 0 4px; }
+  .sub { color:var(--mut); }
+  .warnbox { border-left:4px solid var(--warn); background:#fffbeb; padding:12px 16px; border-radius:8px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; background:#fff; border-radius:12px; overflow:hidden; margin:16px 0; }
+  th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; font-size:14px; }
+  th { background:#f1f5f9; }
+  footer { border-top:1px solid var(--line); margin-top:40px; padding:18px 20px; color:var(--mut); font-size:14px; }
+  footer a { color:var(--acc); }
+  @media print { header { background:#fff; color:#000; } header p { color:#333; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>WS2812B / NeoPixel Power Calculator</h1>
+  <p>PSU size, fuse rating and injection plan from your LED count and brightness — with the realistic-vs-worst-case toggle every LED-strip thread ends up asking about.</p>
+</header>
+<nav class="crumbs"><a href="https://www.tinkernews.com/tools/">Tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
+<main>
+  <div class="card">
+    <div class="row">
+      <div><label>LED count (or use the strip helper below)</label><input id="count" type="number" value="300" min="1"></div>
+      <div><label>LEDs per meter</label><input id="perm" type="number" value="60" min="1"></div>
+      <div><label>Supply voltage</label><select id="volt"><option value="5">5V (WS2812B)</option><option value="12">12V (WS2811/12V strips)</option></select></div>
+      <div><label>Per-LED draw model</label><select id="model">
+        <option value="60">Worst case — full white (60mA)</option>
+        <option value="20" selected>Realistic — animations (20mA avg)</option>
+        <option value="15">Dimmed / mostly single-color (15mA)</option>
+      </select></div>
+      <div><label>Injection spacing (m)</label><input id="inj" type="number" value="2" step="0.5" min="0.5"></div>
+      <div><label>Headroom (%)</label><input id="head" type="number" value="30" min="0" max="100"></div>
+    </div>
+    <div class="result" id="result">—</div>
+    <div class="sub" id="detail">—</div>
+    <div class="sub" id="share" style="font-size:13px;margin-top:8px"></div>
+  </div>
+
+  <div class="warnbox">
+    <strong>⚠ The three rules of LED-strip power.</strong>
+    1. <strong>Never power a long strip from one end</strong> — the flex copper drops volts; the far LEDs shift color or flicker. Inject along the run.<br>
+    2. <strong>Common ground</strong> between the supply, the strip and the microcontroller. A level shifter on the data line (3.3→5V) fixes most glitching.<br>
+    3. <strong>Fuse the supply line</strong> near the PSU. Strips fail short; an unfused 5V 20A supply is a fire risk.
+  </div>
+
+  <h2>Injection &amp; wire guide</h2>
+  <table>
+    <tr><th>Run length (5V, 60 LED/m)</th><th>Power injection</th><th>Feed wire (worst case)</th></tr>
+    <tr><td>≤ 2 m</td><td>One feed at the start is fine</td><td>18 AWG (0.75 mm²)</td></tr>
+    <tr><td>2–5 m</td><td>Feed both ends</td><td>16 AWG (1.5 mm²)</td></tr>
+    <tr><td>5–10 m</td><td>Feed every 2–3 m + both ends</td><td>14 AWG (2.5 mm²) bus, 18 AWG taps</td></tr>
+    <tr><td>10 m+</td><td>Split into segments with separate supplies, or inject every 2 m from a central bus</td><td>12 AWG (4 mm²) bus</td></tr>
+  </table>
+
+  <h2>Worked example</h2>
+  <div class="card sub">5m of 60 LED/m = 300 LEDs at 5V. Realistic animations (20mA): 6.0A = 30W. Worst-case full white (60mA): 18A = 90W. With 30% headroom: pick a 5V <strong>12A (60W)</strong> supply for animations-only, or <strong>5V 24A</strong> if full white is ever on the menu. Inject at 0m, 2.5m, 5m.</div>
+
+  <h2>FAQ</h2>
+  <div class="card"><h3>How many amps does a 5m WS2812B strip draw?</h3><p class="sub">300 LEDs: 6A realistic (animations) / 18A worst case (full white) at 5V.</p></div>
+  <div class="card"><h3>How often should I inject power?</h3><p class="sub">Every 2–3 meters at 5V for 60 LED/m, always at both ends. Voltage drop is the limit — not the supply.</p></div>
+  <div class="card"><h3>What fuse should I use?</h3><p class="sub">~20% above worst-case draw, within 15cm of the PSU. 300 LEDs full white = 20–25A fuse (or fused sub-branches).</p></div>
+</main>
+<footer>
+  Built by <a href="https://www.tinkernews.com/?utm_source=neopixel&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Related: <a href="https://tinkernews.github.io/battery-life-calculator/">battery life calculator</a> · <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 pinout</a> · <a href="https://tinkernews.github.io/resistor-color-code/">resistor color code</a>. Per-LED figures: 60mA is the WS2812B datasheet worst case (all channels full); real content averages far less.
+</footer>
+<script>
+const $ = id => document.getElementById(id);
+function compute() {
+  const count = +$("count").value, perm = +$("perm").value, volt = +$("volt").value,
+        ma = +$("model").value, inj = +$("inj").value, head = +$("head").value;
+  const amps = count * ma / 1000;
+  const watts = amps * volt;
+  const psuA = amps * (1 + head / 100);
+  const len = count / perm;
+  const injects = Math.max(1, Math.ceil(len / inj));
+  const fuse = Math.ceil(amps * 1.2 / 5) * 5;
+  $("result").textContent = `PSU: ${volt}V ${psuA.toFixed(1)}A (${(psuA*volt).toFixed(0)}W)`;
+  $("detail").innerHTML =
+    `Strip draw: <strong>${amps.toFixed(2)}A</strong> (${watts.toFixed(1)}W at ${volt}V) · ${count} LEDs ≈ ${len.toFixed(1)}m at ${perm}/m · ` +
+    `inject at <strong>${injects}</strong> points (~every ${inj}m) · fuse ≈ <strong>${fuse}A</strong> near the PSU`;
+  const q = new URLSearchParams({ c: count, p: perm, v: volt, m: ma, i: inj, h: head });
+  history.replaceState(null, "", "?" + q.toString());
+  $("share").textContent = "Share this setup: copy the page URL — the numbers are saved in it.";
+}
+for (const id of ["count","perm","volt","model","inj","head"]) $(id).addEventListener("input", compute);
+const q = new URLSearchParams(location.search);
+for (const [id, k] of [["count","c"],["perm","p"],["volt","v"],["model","m"],["inj","i"],["head","h"]])
+  if (q.get(k)) $(id).value = q.get(k);
+compute();
+</script>
+</body>
+</html>
