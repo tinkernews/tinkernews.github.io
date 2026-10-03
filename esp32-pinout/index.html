@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ESP32 DevKit V1 Pinout (38-pin) — Interactive Reference &amp; PDF | TinkerNews</title>
+<meta name="description" content="Interactive ESP32 DevKit V1 (38-pin / WROOM) pinout with per-pin deep links, ADC/touch/PWM flags, strapping and safe-GPIO warnings, and a print-ready layout. The pinout reference forum answers can link to.">
+<link rel="canonical" href="https://www.tinkernews.com/tools/esp32-pinout">
+<meta property="og:title" content="ESP32 DevKit V1 Pinout (38-pin) — Interactive Reference">
+<meta property="og:description" content="Per-pin deep links, ADC/touch/PWM flags, strapping + safe-GPIO warnings. Print-ready.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Which pins are safe to use on the ESP32 DevKit V1 at boot?","acceptedAnswer":{"@type":"Answer","text":"GPIO 0, 2, 5, 12 and 15 are strapping pins: their state at reset selects boot mode and flash voltage. Use them only for signals that tolerate being pulled at power-up. GPIO 6-11 are wired to the flash chip and must never be used. The safest general-purpose pins are 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32 and 33."}},
+ {"@type":"Question","name":"Which ESP32 pins support ADC and touch?","acceptedAnswer":{"@type":"Answer","text":"ADC1 (GPIO 32-39) works with WiFi on; ADC2 (GPIO 0, 2, 4, 12-15, 25-27) conflicts with WiFi. Touch sensors are on GPIO 4, 0, 2, 15, 13, 12, 14, 27, 33 and 32."}},
+ {"@type":"Question","name":"What does the GPIO 12 flash-voltage warning mean?","acceptedAnswer":{"@type":"Answer","text":"GPIO 12 (MTDI) is a strapping pin that selects the flash chip's voltage at boot. If it is pulled high when the board resets, 3.3V flash boards can fail to boot. Avoid pull-ups on GPIO 12 unless your module has 1.8V flash."}}]}
+</script>
+<style>
+  :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --warn:#dc2626; --ok:#16a34a; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--ink); color:#fff; padding:28px 20px 22px; }
+  header h1 { margin:0 0 6px; font-size:clamp(22px,4vw,34px); }
+  header p { margin:0; color:#cbd5e1; max-width:70ch; }
+  nav.crumbs { max-width:1100px; margin:0 auto; padding:10px 20px 0; font-size:14px; }
+  nav.crumbs a { color:var(--acc); text-decoration:none; }
+  main { max-width:1100px; margin:0 auto; padding:16px 20px 60px; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin:18px 0; }
+  .btn { display:inline-block; padding:10px 16px; border-radius:10px; background:var(--acc); color:#fff; text-decoration:none; font-weight:600; border:0; cursor:pointer; }
+  .btn.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px; margin:22px 0; }
+  .pin { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; scroll-margin-top:78px; }
+  .pin h3 { margin:0 0 6px; font-size:16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .chip { font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#3730a3; }
+  .chip.adc { background:#ecfeff; color:#0e7490; }
+  .chip.touch { background:#f0fdf4; color:#15803d; }
+  .chip.pwm { background:#fdf4ff; color:#a21caf; }
+  .chip.strap { background:#fef2f2; color:var(--warn); }
+  .chip.flash { background:#111; color:#fff; }
+  .chip.ok { background:#f0fdf4; color:var(--ok); }
+  .pin p { margin:6px 0 0; font-size:14px; color:#334155; }
+  .warnbox { border-left:4px solid var(--warn); background:#fef2f2; padding:12px 16px; border-radius:8px; margin:18px 0; }
+  .okbox { border-left:4px solid var(--ok); background:#f0fdf4; padding:12px 16px; border-radius:8px; margin:18px 0; }
+  table { border-collapse:collapse; width:100%; background:#fff; border-radius:12px; overflow:hidden; margin:18px 0; }
+  th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; font-size:14px; }
+  th { background:#f1f5f9; }
+  footer { border-top:1px solid var(--line); margin-top:40px; padding:18px 20px; color:var(--mut); font-size:14px; }
+  footer a { color:var(--acc); }
+  @media print {
+    header { background:#fff; color:#000; } header p { color:#333; }
+    .actions, nav.crumbs { display:none; }
+    .pin { break-inside:avoid; border:1px solid #999; }
+    .grid { grid-template-columns:repeat(2,1fr); }
+    a { color:#000; text-decoration:none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>ESP32 DevKit V1 Pinout — 38-pin (WROOM)</h1>
+  <p>The interactive pinout reference: per-pin deep links for forum answers, ADC/touch/PWM flags, and the strapping &amp; safe-GPIO warnings the datasheet buries. Print-ready.</p>
+</header>
+<nav class="crumbs"><a href="https://www.tinkernews.com/tools/">Tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
+<main>
+  <div class="actions">
+    <button class="btn" onclick="window.print()">🖨 Print / Save as PDF</button>
+    <a class="btn ghost" href="#safe">Jump to safe pins</a>
+    <a class="btn ghost" href="#strapping">Strapping warnings</a>
+  </div>
+
+  <div class="warnbox" id="strapping">
+    <strong>⚠ Three rules before you wire anything.</strong><br>
+    1. <strong>Never use GPIO 6–11</strong> — they connect the ESP32 to its flash chip. Using them crashes the board.<br>
+    2. <strong>Strapping pins (0, 2, 5, 12, 15)</strong> are read at reset: they set boot mode and flash voltage. External pulls on these can stop the board booting.<br>
+    3. <strong>GPIO 12 pulled high at boot</strong> = 3.3V flash modules may not start. Leave it floating unless you know your flash voltage.
+  </div>
+
+  <div class="okbox" id="safe">
+    <strong>✅ Safe general-purpose pins:</strong> GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33.
+    Need analog with WiFi on? Use <strong>ADC1 (GPIO 32–39)</strong> — ADC2 conflicts with WiFi.
+  </div>
+
+  <h2>Pin reference</h2>
+  <div class="grid" id="pins"></div>
+
+  <h2>Quick matrices</h2>
+  <table>
+    <tr><th>Function</th><th>Pins</th></tr>
+    <tr><td>ADC1 (WiFi-safe)</td><td>GPIO 32 (VP), 33 (VN), 34, 35, 36 (SVP), 39 (SVN)</td></tr>
+    <tr><td>ADC2 (conflicts with WiFi)</td><td>GPIO 0, 2, 4, 12, 13, 14, 15, 25, 26, 27</td></tr>
+    <tr><td>Touch</td><td>GPIO 4, 0, 2, 15, 13, 12, 14, 27, 33, 32</td></tr>
+    <tr><td>PWM (LEDC, all outputs)</td><td>GPIO 0–23, 25–27, 32–33 (not 34–39: input-only)</td></tr>
+    <tr><td>Input-only pins</td><td>GPIO 34, 35, 36, 39 (no pull-ups, no output)</td></tr>
+    <tr><td>I²C defaults (Wire)</td><td>SDA = GPIO 21, SCL = GPIO 22 (any output pin can be remapped)</td></tr>
+    <tr><td>Hardware SPI (VSPI)</td><td>SCK = 18, MISO = 19, MOSI = 23, SS = 5</td></tr>
+    <tr><td>UART0 (USB serial)</td><td>TX = GPIO 1, RX = GPIO 3</td></tr>
+    <tr><td>Output-only (3.3V logic)</td><td>GPIO 34–39 are input-only; all others drive up to ~12mA safely</td></tr>
+  </table>
+
+  <h2 id="faq">FAQ</h2>
+  <div class="pin"><h3>Which pins are safe at boot?</h3><p>GPIO 0, 2, 5, 12, 15 are strapping pins read during reset. GPIO 6–11 belong to flash. The safe everyday set: 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33.</p></div>
+  <div class="pin"><h3>Why does ADC2 stop working with WiFi?</h3><p>The WiFi radio shares the ADC2 SAR. Use ADC1 (GPIO 32–39) for analog reads on connected projects.</p></div>
+  <div class="pin"><h3>Can GPIO 34–39 use internal pull-ups?</h3><p>No — the input-only pins lack internal pull resistors. Add external ones (10kΩ typical).</p></div>
+</main>
+<footer>
+  Built by <a href="https://www.tinkernews.com/?utm_source=pinout&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Found a mistake? Reply to any issue and it gets fixed. Data follows the Espressif ESP32 datasheet; always confirm against your board's schematic.
+</footer>
+<script>
+// Per-pin data: [name, side, flags[], note]
+const PINS = [
+ ["3V3","L",["pwr"],"3.3V regulated output from the AMS1117 — power small sensors, never back-feed it."],
+ ["EN","L",["strap"],"Chip enable / reset. Floating = running. Pull low to reset; a 10kΩ pull-up + button to GND is the classic reset circuit."],
+ ["VP / GPIO36","L",["adc","in"],"Input-only. ADC1_CH0 (SVP). No internal pull resistors. Great for battery sensing."],
+ ["VN / GPIO39","L",["adc","in","touch"],"Input-only. ADC1_CH3 (SVN). Touch channel 9."],
+ ["GPIO34","L",["adc","in"],"Input-only. ADC1_CH6. No internal pulls."],
+ ["GPIO35","L",["adc","in"],"Input-only. ADC1_CH7. No internal pulls."],
+ ["GPIO32","L",["adc","touch","pwm"],"ADC1_CH4, touch 9. Safe everyday pin."],
+ ["GPIO33","L",["adc","touch","pwm"],"ADC1_CH5, touch 8. Safe everyday pin."],
+ ["GPIO25","L",["adc","pwm","dac"],"DAC1. Safe. Often used for audio-out PWM."],
+ ["GPIO26","L",["adc","pwm","dac"],"DAC2. Safe."],
+ ["GPIO27","L",["adc","touch","pwm"],"Touch 7. Safe."],
+ ["GPIO14","L",["pwm","touch","strap"],"MTMS — strapping-adjacent (JTAG). Touch 6. Safe in practice for outputs."],
+ ["GPIO12","L",["adc","touch","strap","flash"],"⚠ MTDI: sets flash voltage at boot. Pulled high = 3.3V flash modules may not start. Avoid unless certain."],
+ ["GPIO13","L",["adc","touch","pwm"],"MTCK. Touch 4. Safe."],
+ ["GND","L",["pwr"],"Ground (two pins on this board — use both for tidy wiring)."],
+ ["VIN","L",["pwr"],"5V input (USB voltage). Powers the regulator. 4.5–5.5V typical."],
+ ["GPIO23","R",["pwm"],"VSPI MOSI. Safe everyday pin."],
+ ["GPIO22","R",["pwm"],"I²C SCL default. Safe everyday pin."],
+ ["TX / GPIO1","R",["uart"],"UART0 TX. Free after boot — fine for general use, but bootloader logs use it."],
+ ["RX / GPIO3","R",["uart"],"UART0 RX. Same caveat as TX."],
+ ["GPIO21","R",["pwm"],"I²C SDA default. Safe everyday pin."],
+ ["GND","R",["pwr"],"Ground."],
+ ["GPIO19","R",["pwm"],"VSPI MISO. Safe everyday pin."],
+ ["GPIO18","R",["pwm"],"VSPI SCK. Safe everyday pin."],
+ ["GPIO5","R",["pwm","strap"],"VSPI SS. Strapping pin (must be HIGH at boot for normal flash boot). Fine as CS."],
+ ["GPIO17","R",["pwm"],"HSPI CLK. Safe everyday pin."],
+ ["GPIO16","R",["pwm"],"HSPI CS / often PSRAM CS on WROVER. Safe on WROOM boards."],
+ ["GPIO4","R",["adc","touch","pwm"],"ADC2_CH0, touch 0. Safe everyday pin."],
+ ["GPIO0","R",["adc","touch","strap"],"⚠ Boot-mode strapping: LOW at reset = download mode. LEDs here will blink during boot."],
+ ["GPIO2","R",["adc","touch","strap"],"⚠ Must be floating or LOW at reset for boot. Often the on-board LED."],
+ ["GPIO15","R",["adc","touch","strap"],"⚠ MTDO strapping (boot log). LOW at reset silences boot messages but can block boot."],
+ ["SD2 / GPIO9","R",["flash"],"⛔ Flash. Never wire."],
+ ["SD3 / GPIO10","R",["flash"],"⛔ Flash. Never wire."],
+ ["CMD / GPIO11","R",["flash"],"⛔ Flash. Never wire."],
+ ["5V","R",["pwr"],"Tied to VIN/USB 5V rail."],
+ ["GND","R",["pwr"],"Ground."],
+ ["CLK / GPIO6","R",["flash"],"⛔ Flash. Never wire."],
+ ["SD0 / GPIO7","R",["flash"],"⛔ Flash. Never wire."],
+ ["SD1 / GPIO8","R",["flash"],"⛔ Flash. Never wire."]
+];
+const FLABEL = {adc:"ADC",touch:"Touch",pwm:"PWM",strap:"Strapping",flash:"FLASH ⛔",in:"Input-only",uart:"UART",dac:"DAC",pwr:"Power"};
+const root = document.getElementById("pins");
+for (const [name, side, flags, note] of PINS) {
+  const id = name.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+  const el = document.createElement("div");
+  el.className = "pin";
+  el.id = id;
+  el.innerHTML = `<h3><a href="#${id}" style="color:inherit">${name}</a>
+    <span class="chip">${side === "L" ? "Left" : "Right"}</span>
+    ${flags.map(f => `<span class="chip ${f}">${FLABEL[f] || f}</span>`).join("")}</h3><p>${note}</p>`;
+  root.appendChild(el);
+}
+</script>
+</body>
+</html>
