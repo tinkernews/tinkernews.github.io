@@ -10,9 +10,9 @@
 <meta property="og:description" content="Per-pin deep links, ADC/touch/PWM flags, strapping + safe-GPIO warnings. Print-ready.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tinkernews.github.io/esp32-pinout/">
-<meta property="og:image" content="https://tinkernews.github.io/og/og-esp32-pinout.png">
+<meta property="og:image" content="https://tinkernews.github.io/og/esp32-devkit-pinout-diagram.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://tinkernews.github.io/og/og-esp32-pinout.png">
+<meta name="twitter:image" content="https://tinkernews.github.io/og/esp32-devkit-pinout-diagram.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
  {"@type":"Question","name":"Which pins are safe at boot?","acceptedAnswer":{"@type":"Answer","text":"GPIO 0, 2, 5, 12, 15 are strapping pins read during reset. GPIO 6-11 belong to flash. The safe everyday set: 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33."}},
@@ -83,6 +83,11 @@
     <strong>✅ Safe general-purpose pins:</strong> GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33.
     Need analog with WiFi on? Use <strong>ADC1 (GPIO 32–39)</strong> — ADC2 conflicts with WiFi.
   </div>
+
+  <figure style="margin:18px 0">
+    <img src="https://tinkernews.github.io/og/esp32-devkit-pinout-diagram.png" alt="ESP32 DevKit V1 38-pin pinout diagram with safe-GPIO and strapping warnings" width="100%" loading="lazy">
+    <figcaption class="sub">ESP32 DevKit V1 (38-pin) — full pinout diagram. Right-click → save, or print this page for the bench.</figcaption>
+  </figure>
 
   <h2>Pin reference</h2>
   <div class="grid" id="pins"></div>
