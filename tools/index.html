@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Electronics Tools &amp; Calculators | TinkerNews</title>
+<meta name="description" content="Six free, no-signup electronics tools for makers: ESP32 and C3 SuperMini pinouts, resistor color code decoder, IoT battery-life calculator, WS2812B power calculator and voltage-drop/wire-gauge calculator.">
+<link rel="canonical" href="https://www.tinkernews.com/tools/">
+<meta property="og:title" content="Free Electronics Tools &amp; Calculators | TinkerNews">
+<meta property="og:description" content="Pinouts, resistor codes, battery life, LED power and wire gauge — free, no signup, print-ready.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ItemList","itemListElement":[
+ {"@type":"ListItem","position":1,"name":"ESP32 DevKit V1 Pinout (38-pin)","url":"https://tinkernews.github.io/esp32-pinout/"},
+ {"@type":"ListItem","position":2,"name":"ESP32-C3 SuperMini Pinout","url":"https://tinkernews.github.io/esp32-c3-supermini-pinout/"},
+ {"@type":"ListItem","position":3,"name":"Resistor Color Code Calculator","url":"https://tinkernews.github.io/resistor-color-code/"},
+ {"@type":"ListItem","position":4,"name":"IoT Battery Life Calculator","url":"https://tinkernews.github.io/battery-life-calculator/"},
+ {"@type":"ListItem","position":5,"name":"WS2812B / NeoPixel Power Calculator","url":"https://tinkernews.github.io/ws2812b-power-calculator/"},
+ {"@type":"ListItem","position":6,"name":"Voltage Drop & Wire Gauge Calculator","url":"https://tinkernews.github.io/voltage-drop-calculator/"}]}
+</script>
+<style>
+  :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--ink); color:#fff; padding:32px 20px 26px; }
+  header h1 { margin:0 0 8px; font-size:clamp(24px,4.5vw,38px); }
+  header p { margin:0; color:#cbd5e1; max-width:72ch; }
+  main { max-width:1100px; margin:0 auto; padding:22px 20px 60px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin:22px 0; }
+  .tool { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; text-decoration:none; color:inherit; transition:box-shadow .15s, transform .15s; }
+  .tool:hover { box-shadow:0 8px 24px rgba(28,32,60,.12); transform:translateY(-2px); }
+  .tool h2 { margin:0 0 8px; font-size:19px; }
+  .tool p { margin:0; color:var(--mut); font-size:14.5px; }
+  .tag { display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; background:#ecfeff; color:#0e7490; margin-bottom:10px; }
+  .note { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:22px 0; }
+  footer { border-top:1px solid var(--line); margin-top:40px; padding:20px; color:var(--mut); font-size:14px; text-align:center; }
+  footer a { color:var(--acc); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Free Electronics Tools &amp; Calculators</h1>
+  <p>Six reference tools we build for our own projects and publish for yours — no signup, no ads, no tracking. Print-ready where it matters, and every result has a shareable URL for forum answers.</p>
+</header>
+<main>
+  <div class="grid">
+    <a class="tool" href="https://tinkernews.github.io/esp32-pinout/">
+      <span class="tag">PINOUT · HIGHEST DEMAND</span>
+      <h2>ESP32 DevKit V1 Pinout (38-pin)</h2>
+      <p>Interactive per-pin reference with ADC/touch/PWM flags, strapping and safe-GPIO warnings. Per-pin anchors for forum answers; print-ready layout.</p>
+    </a>
+    <a class="tool" href="https://tinkernews.github.io/esp32-c3-supermini-pinout/">
+      <span class="tag">PINOUT</span>
+      <h2>ESP32-C3 SuperMini Pinout (16-pin)</h2>
+      <p>The $2 RISC-V board reference: boot-strapping warnings (GPIO 2/8/9), ADC notes and why your board won't flash.</p>
+    </a>
+    <a class="tool" href="https://tinkernews.github.io/resistor-color-code/">
+      <span class="tag">CALCULATOR</span>
+      <h2>Resistor Color Code (4/5/6-band)</h2>
+      <p>Click the bands, get the value: tolerance, min/max range, nearest E-series value, printable chart and mnemonic.</p>
+    </a>
+    <a class="tool" href="https://tinkernews.github.io/battery-life-calculator/">
+      <span class="tag">CALCULATOR · UNIQUE</span>
+      <h2>IoT Battery Life Calculator</h2>
+      <p>Duty-cycle-aware runtime for deep-sleep projects — the tool that answers "how long will my ESP32 run on this LiPo?" with chip presets.</p>
+    </a>
+    <a class="tool" href="https://tinkernews.github.io/ws2812b-power-calculator/">
+      <span class="tag">CALCULATOR</span>
+      <h2>WS2812B / NeoPixel Power</h2>
+      <p>PSU size, fuse rating and injection plan from LED count and brightness — realistic 20mA vs worst-case 60mA.</p>
+    </a>
+    <a class="tool" href="https://tinkernews.github.io/voltage-drop-calculator/">
+      <span class="tag">CALCULATOR</span>
+      <h2>Voltage Drop &amp; Wire Gauge</h2>
+      <p>12V wiring done right: drop %, the 3%-rule verdict and the gauge you should actually use (round-trip modeled).</p>
+    </a>
+  </div>
+
+  <div class="note">
+    <strong>Why these exist:</strong> TinkerNews is a <a href="https://www.tinkernews.com/?utm_source=tools-hub&amp;utm_campaign=tools">free weekly roundup of DIY electronics builds</a> (ESP32, Arduino, Raspberry Pi, robotics, IoT). Every issue we curate the best maker builds on the web — and when a reference gap annoys us twice, we build a tool for it. Feedback welcome: reply to any issue.
+  </div>
+</main>
+<footer>
+  Built by <a href="https://www.tinkernews.com/?utm_source=tools-hub&amp;utm_campaign=tools">TinkerNews</a> · free tools, honest numbers, no tracking.
+</footer>
+</body>
+</html>
