@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voltage Drop &amp; Wire Gauge Calculator (12V DC) | TinkerNews</title>
+<meta name="description" content="Length, current and gauge → voltage drop %, recommended wire gauge (AWG + mm²) and the 3% rule for 12V systems. Built for LED strips, automotive and maker wiring.">
+<link rel="canonical" href="https://www.tinkernews.com/tools/voltage-drop-calculator">
+<meta property="og:title" content="Voltage Drop &amp; Wire Gauge Calculator (12V DC)">
+<meta property="og:description" content="Drop %, recommended gauge and the 3% rule for LED strips, automotive and maker wiring.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"What is the 3% voltage drop rule?","acceptedAnswer":{"@type":"Answer","text":"Most 12V and low-voltage wiring guides treat 3% drop on a branch circuit as the maximum for correct operation — 5% including the main run. Above that, motors run hot, LEDs dim and sensors drift. It is a convention, not physics: sensitive gear wants under 2%."}},
+ {"@type":"Question","name":"How do I calculate voltage drop for a 12V LED strip?","acceptedAnswer":{"@type":"Answer","text":"Drop = 2 × length(m) × current(A) × resistance(Ω/m of the wire gauge). Round-trip factor 2 because current travels out and back. At 12V with 5A over 5m of 18 AWG, expect roughly 2.3V (19%) — far past 3% — which is why LED runs use 16/14 AWG or injection at both ends."}},
+ {"@type":"Question","name":"Does wire length mean one-way or round trip?","acceptedAnswer":{"@type":"Answer","text":"Always count the round trip: the current goes out on one conductor and returns on the other. This calculator models round-trip length — enter the physical run length and it doubles internally."}}]}
+</script>
+<style>
+  :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --warn:#d97706; --ok:#16a34a; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--ink); color:#fff; padding:28px 20px 22px; }
+  header h1 { margin:0 0 6px; font-size:clamp(22px,4vw,34px); }
+  header p { margin:0; color:#cbd5e1; max-width:70ch; }
+  nav.crumbs { max-width:1100px; margin:0 auto; padding:10px 20px 0; font-size:14px; }
+  nav.crumbs a { color:var(--acc); text-decoration:none; }
+  main { max-width:1100px; margin:0 auto; padding:16px 20px 60px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin:16px 0; }
+  .row { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+  label { display:block; font-size:13px; color:var(--mut); margin-bottom:4px; }
+  input, select { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:9px; font-size:15px; }
+  .result { font-size:clamp(26px,5vw,42px); font-weight:800; margin:12px 0 4px; }
+  .sub { color:var(--mut); }
+  .okbox { border-left:4px solid var(--ok); background:#f0fdf4; padding:12px 16px; border-radius:8px; margin:16px 0; }
+  .warnbox { border-left:4px solid var(--warn); background:#fffbeb; padding:12px 16px; border-radius:8px; margin:16px 0; }
+  table { border-collapse:collapse; width:100%; background:#fff; border-radius:12px; overflow:hidden; margin:16px 0; }
+  th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; font-size:14px; }
+  th { background:#f1f5f9; }
+  footer { border-top:1px solid var(--line); margin-top:40px; padding:18px 20px; color:var(--mut); font-size:14px; }
+  footer a { color:var(--acc); }
+  @media print { header { background:#fff; color:#000; } header p { color:#333; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Voltage Drop &amp; Wire Gauge Calculator — 12V DC</h1>
+  <p>The LED-strip and automotive wiring question answered: enter the run length, current and gauge — get drop %, the 3%-rule verdict and the gauge you should actually use.</p>
+</header>
+<nav class="crumbs"><a href="https://www.tinkernews.com/tools/">Tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
+<main>
+  <div class="card">
+    <div class="row">
+      <div><label>System voltage</label><select id="volt"><option value="12">12V DC</option><option value="5">5V DC</option><option value="24">24V DC</option></select></div>
+      <div><label>One-way run length (m)</label><input id="len" type="number" value="5" step="0.1" min="0.1"></div>
+      <div><label>Current (A)</label><input id="amp" type="number" value="5" step="0.1" min="0.1"></div>
+      <div><label>Wire gauge</label><select id="awg">
+        <option value="0.5">20 AWG (0.5 mm²)</option>
+        <option value="0.75" selected>18 AWG (0.75 mm²)</option>
+        <option value="1.5">16 AWG (1.5 mm²)</option>
+        <option value="2.5">14 AWG (2.5 mm²)</option>
+        <option value="4">12 AWG (4 mm²)</option>
+        <option value="6">10 AWG (6 mm²)</option>
+      </select></div>
+      <div><label>Max acceptable drop (%)</label><input id="maxdrop" type="number" value="3" step="0.5" min="0.5"></div>
+    </div>
+    <div class="result" id="result">—</div>
+    <div class="sub" id="detail">—</div>
+    <div class="sub" id="share" style="font-size:13px;margin-top:8px"></div>
+  </div>
+
+  <div class="okbox" id="verdict"></div>
+
+  <div class="warnbox">
+    <strong>⚠ Method &amp; when not to trust it.</strong> Copper resistivity 1.72×10⁻⁸ Ω·m at 20°C, round-trip length modeled. It ignores: connector resistance (often bigger than the wire!), temperature (hot wire = more drop), and AC skin effect (irrelevant at DC). For precision work, measure at the load under full current.
+  </div>
+
+  <h2>Quick gauge guide (12V, 3% drop, round trip)</h2>
+  <table>
+    <tr><th>Current</th><th>2 m</th><th>5 m</th><th>10 m</th></tr>
+    <tr><td>2A</td><td>20 AWG</td><td>18 AWG</td><td>16 AWG</td></tr>
+    <tr><td>5A</td><td>18 AWG</td><td>16 AWG</td><td>14 AWG</td></tr>
+    <tr><td>10A</td><td>16 AWG</td><td>14 AWG</td><td>12 AWG</td></tr>
+    <tr><td>20A</td><td>14 AWG</td><td>12 AWG</td><td>10 AWG</td></tr>
+  </table>
+
+  <h2>Worked example</h2>
+  <div class="card sub">A 5m LED-strip run at 12V pulling 5A over 18 AWG (0.75 mm²): round-trip 10m × 0.023 Ω/m = 0.23Ω → 5A × 0.23Ω = <strong>1.16V drop = 9.6%</strong>. The verdict: undersized — step up to 14 AWG (2.5 mm²) for 2.9% or feed the strip from both ends.</div>
+
+  <h2>FAQ</h2>
+  <div class="card"><h3>What is the 3% voltage drop rule?</h3><p class="sub">The standard low-voltage wiring convention: 3% on the branch, 5% total. More than that and gear misbehaves — motors heat, LEDs dim, sensors drift.</p></div>
+  <div class="card"><h3>One-way or round-trip length?</h3><p class="sub">Round trip — current goes out and comes back. Enter the physical run length; this tool doubles it internally.</p></div>
+  <div class="card"><h3>Why do connectors matter?</h3><p class="sub">A cheap barrel connector can add 10-30 mΩ — at 10A that's 0.3V, more than meters of good wire. Crimp or solder high-current joints.</p></div>
+</main>
+<footer>
+  Built by <a href="https://www.tinkernews.com/?utm_source=wiredrop&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Related: <a href="https://tinkernews.github.io/ws2812b-power-calculator/">WS2812B power calculator</a> · <a href="https://tinkernews.github.io/battery-life-calculator/">battery life calculator</a> · <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 pinout</a>.
+</footer>
+<script>
+const $ = id => document.getElementById(id);
+const RHO = 1.72e-8; // copper Ω·m
+function compute() {
+  const volt = +$("volt").value, len = +$("len").value, amp = +$("amp").value,
+        area = +$("awg").value, maxdrop = +$("maxdrop").value;
+  const areaM2 = area * 1e-6;                    // mm² → m²
+  const rPerM = RHO / areaM2;                    // Ω/m
+  const roundTrip = 2 * len;                     // m
+  const dropV = amp * rPerM * roundTrip;
+  const dropPct = dropV / volt * 100;
+  const good = dropPct <= maxdrop;
+  $("result").textContent = `${dropV.toFixed(2)}V drop — ${dropPct.toFixed(1)}%`;
+  $("detail").innerHTML = `At <strong>${volt}V</strong>: load sees ${(volt - dropV).toFixed(2)}V · ${roundTrip.toFixed(0)}m round trip × ${(rPerM*1000).toFixed(2)} mΩ/m = ${(rPerM*roundTrip*1000).toFixed(0)} mΩ wire · lost power ${(dropV*amp).toFixed(2)}W`;
+  $("verdict").innerHTML = good
+    ? `<strong>✅ Within your ${maxdrop}% limit</strong> — this gauge works for the run. Leave margin for connectors and temperature.`
+    : `<strong>⚠ ${dropPct.toFixed(1)}% exceeds your ${maxdrop}% limit</strong> — go up a gauge (the previous option in the list), shorten the run, raise the voltage, or feed both ends. At ${volt}V the load will see ${(volt-dropV).toFixed(2)}V.`;
+  const q = new URLSearchParams({ v: volt, l: len, a: amp, g: area, d: maxdrop });
+  history.replaceState(null, "", "?" + q.toString());
+  $("share").textContent = "Share this scenario: copy the page URL — the numbers are saved in it.";
+}
+for (const id of ["volt","len","amp","awg","maxdrop"]) $(id).addEventListener("input", compute);
+const q = new URLSearchParams(location.search);
+for (const [id, k] of [["volt","v"],["len","l"],["amp","a"],["awg","g"],["maxdrop","d"]])
+  if (q.get(k)) $(id).value = q.get(k);
+compute();
+</script>
+</body>
+</html>
