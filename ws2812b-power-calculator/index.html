@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WS2812B / NeoPixel Power Calculator — PSU, Fuse &amp; Injection | TinkerNews</title>
-<meta name="description" content="How big a power supply for your WS2812B / NeoPixel strip? LED count, brightness and injection spacing → PSU wattage, fuse rating and wire gauge. Realistic 20mA vs worst-case 60mA toggle.">
-<link rel="canonical" href="https://www.tinkernews.com/tools/ws2812b-power-calculator">
+<title>WS2812B / NeoPixel Power Calculator — TinkerNews</title>
+<meta name="description" content="WS2812B PSU size, fuse and injection points from LED count and brightness. Realistic vs worst-case draw.">
+<link rel="canonical" href="https://tinkernews.github.io/ws2812b-power-calculator/">
 <meta property="og:title" content="WS2812B / NeoPixel Power Calculator">
 <meta property="og:description" content="PSU size, fuse and injection plan from LED count and brightness. Worst-case vs realistic draw.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://tinkernews.github.io/ws2812b-power-calculator/">
 <meta property="og:image" content="https://tinkernews.github.io/og/og-ws2812b.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://tinkernews.github.io/og/og-ws2812b.png">
@@ -91,9 +92,11 @@
   <div class="card"><h3>How many amps does a 5m WS2812B strip draw?</h3><p class="sub">300 LEDs: 6A realistic (animations) / 18A worst case (full white) at 5V.</p></div>
   <div class="card"><h3>How often should I inject power?</h3><p class="sub">Every 2–3 meters at 5V for 60 LED/m, always at both ends. Voltage drop is the limit — not the supply.</p></div>
   <div class="card"><h3>What fuse should I use?</h3><p class="sub">~20% above worst-case draw, within 15cm of the PSU. 300 LEDs full white = 20–25A fuse (or fused sub-branches).</p></div>
+
+<div class="okbox" style="margin-top:28px"><strong>Like these tools?</strong> They come out of <a href="https://www.tinkernews.com/#subscribe?utm_source=tools-cta&amp;utm_campaign=tools">TinkerNews</a>, a free weekly issue of the best DIY electronics builds. One email, every Sunday.</div>
 </main>
 <footer>
-  Built by <a href="https://www.tinkernews.com/?utm_source=neopixel&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Built by <a href="https://www.tinkernews.com/#subscribe?utm_source=neopixel&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
   Related: <a href="https://tinkernews.github.io/battery-life-calculator/">battery life calculator</a> · <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 pinout</a> · <a href="https://tinkernews.github.io/resistor-color-code/">resistor color code</a>. Per-LED figures: 60mA is the WS2812B datasheet worst case (all channels full); real content averages far less.
 </footer>
 <script>

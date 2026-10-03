@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://tinkernews.github.io/tools/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinkernews.github.io/esp32-pinout/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinkernews.github.io/esp32-c3-supermini-pinout/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinkernews.github.io/resistor-color-code/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinkernews.github.io/battery-life-calculator/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinkernews.github.io/ws2812b-power-calculator/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinkernews.github.io/voltage-drop-calculator/</loc><changefreq>monthly</changefreq></url>
+</urlset>

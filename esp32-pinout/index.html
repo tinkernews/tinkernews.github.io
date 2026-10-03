@@ -3,20 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ESP32 DevKit V1 Pinout (38-pin) — Interactive Reference &amp; PDF | TinkerNews</title>
-<meta name="description" content="Interactive ESP32 DevKit V1 (38-pin / WROOM) pinout with per-pin deep links, ADC/touch/PWM flags, strapping and safe-GPIO warnings, and a print-ready layout. The pinout reference forum answers can link to.">
-<link rel="canonical" href="https://www.tinkernews.com/tools/esp32-pinout">
+<title>ESP32 DevKit V1 Pinout (38-Pin) — TinkerNews</title>
+<meta name="description" content="Interactive 38-pin ESP32 DevKit V1 pinout: per-pin anchors, safe-GPIO and strapping warnings, print-ready.">
+<link rel="canonical" href="https://tinkernews.github.io/esp32-pinout/">
 <meta property="og:title" content="ESP32 DevKit V1 Pinout (38-pin) — Interactive Reference">
 <meta property="og:description" content="Per-pin deep links, ADC/touch/PWM flags, strapping + safe-GPIO warnings. Print-ready.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://tinkernews.github.io/esp32-pinout/">
 <meta property="og:image" content="https://tinkernews.github.io/og/og-esp32-pinout.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://tinkernews.github.io/og/og-esp32-pinout.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
- {"@type":"Question","name":"Which pins are safe to use on the ESP32 DevKit V1 at boot?","acceptedAnswer":{"@type":"Answer","text":"GPIO 0, 2, 5, 12 and 15 are strapping pins: their state at reset selects boot mode and flash voltage. Use them only for signals that tolerate being pulled at power-up. GPIO 6-11 are wired to the flash chip and must never be used. The safest general-purpose pins are 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32 and 33."}},
- {"@type":"Question","name":"Which ESP32 pins support ADC and touch?","acceptedAnswer":{"@type":"Answer","text":"ADC1 (GPIO 32-39) works with WiFi on; ADC2 (GPIO 0, 2, 4, 12-15, 25-27) conflicts with WiFi. Touch sensors are on GPIO 4, 0, 2, 15, 13, 12, 14, 27, 33 and 32."}},
- {"@type":"Question","name":"What does the GPIO 12 flash-voltage warning mean?","acceptedAnswer":{"@type":"Answer","text":"GPIO 12 (MTDI) is a strapping pin that selects the flash chip's voltage at boot. If it is pulled high when the board resets, 3.3V flash boards can fail to boot. Avoid pull-ups on GPIO 12 unless your module has 1.8V flash."}}]}
+ {"@type":"Question","name":"Which pins are safe at boot?","acceptedAnswer":{"@type":"Answer","text":"GPIO 0, 2, 5, 12, 15 are strapping pins read during reset. GPIO 6-11 belong to flash. The safe everyday set: 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33."}},
+ {"@type":"Question","name":"Why does ADC2 stop working with WiFi?","acceptedAnswer":{"@type":"Answer","text":"The WiFi radio shares the ADC2 SAR. Use ADC1 (GPIO 32-39) for analog reads on connected projects."}},
+ {"@type":"Question","name":"Can GPIO 34–39 use internal pull-ups?","acceptedAnswer":{"@type":"Answer","text":"No - the input-only pins lack internal pull resistors. Add external ones (10kohm typical)."}}]}
 </script>
 <style>
   :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --warn:#dc2626; --ok:#16a34a; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
@@ -104,9 +105,11 @@
   <div class="pin"><h3>Which pins are safe at boot?</h3><p>GPIO 0, 2, 5, 12, 15 are strapping pins read during reset. GPIO 6–11 belong to flash. The safe everyday set: 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33.</p></div>
   <div class="pin"><h3>Why does ADC2 stop working with WiFi?</h3><p>The WiFi radio shares the ADC2 SAR. Use ADC1 (GPIO 32–39) for analog reads on connected projects.</p></div>
   <div class="pin"><h3>Can GPIO 34–39 use internal pull-ups?</h3><p>No — the input-only pins lack internal pull resistors. Add external ones (10kΩ typical).</p></div>
+
+<div class="okbox" style="margin-top:28px"><strong>Like these tools?</strong> They come out of <a href="https://www.tinkernews.com/#subscribe?utm_source=tools-cta&amp;utm_campaign=tools">TinkerNews</a>, a free weekly issue of the best DIY electronics builds. One email, every Sunday.</div>
 </main>
 <footer>
-  Built by <a href="https://www.tinkernews.com/?utm_source=pinout&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Built by <a href="https://www.tinkernews.com/#subscribe?utm_source=pinout&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
   Found a mistake? Reply to any issue and it gets fixed. Data follows the Espressif ESP32 datasheet; always confirm against your board's schematic.
 </footer>
 <script>

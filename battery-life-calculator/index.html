@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IoT Battery Life Calculator — ESP32 Deep-Sleep Duty Cycle | TinkerNews</title>
-<meta name="description" content="How long will my ESP32 run on this battery? Duty-cycle-aware battery life calculator with deep-sleep presets for ESP32, C3, Pico and Arduino. Includes assumptions and when NOT to use it.">
-<link rel="canonical" href="https://www.tinkernews.com/tools/battery-life-calculator">
+<title>IoT Battery Life Calculator (Deep-Sleep) — TinkerNews</title>
+<meta name="description" content="Duty-cycle battery life for ESP32 deep-sleep projects: mAh, wake time and sleep current in, runtime out.">
+<link rel="canonical" href="https://tinkernews.github.io/battery-life-calculator/">
 <meta property="og:title" content="IoT Battery Life Calculator — ESP32 Deep-Sleep Duty Cycle">
 <meta property="og:description" content="Runtime from battery mAh, wake duty cycle and deep-sleep current. Chip presets included.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://tinkernews.github.io/battery-life-calculator/">
 <meta property="og:image" content="https://tinkernews.github.io/og/og-battery.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://tinkernews.github.io/og/og-battery.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
- {"@type":"Question","name":"How long will a 2000mAh LiPo run an ESP32 deep-sleep sensor?","acceptedAnswer":{"@type":"Answer","text":"With typical values (2 wakes/min, 500ms at 80mA active, 10µA sleep) a 2000mAh cell runs roughly 6-8 months. Active energy dominates: halving wake time often doubles battery life, while shaving sleep current from 20µA to 10µA adds only a few percent."}},
+ {"@type":"Question","name":"How long will a 2000mAh LiPo run an ESP32 deep-sleep sensor?","acceptedAnswer":{"@type":"Answer","text":"For the page's default scenario (2,880 wakes/day, 500ms at 80mA active, 10µA sleep, 2000mAh at 80% usable) the calculator gives about 50 days. Active energy dominates: halving wake time nearly doubles runtime, while shaving sleep current from 20µA to 10µA adds only a few percent."}},
  {"@type":"Question","name":"What deep-sleep current does the ESP32 actually draw?","acceptedAnswer":{"@type":"Answer","text":"The bare chip reaches ~5-10µA in deep sleep, but dev boards typically draw 20-150µA because of the USB-serial chip and regulator quiescent current. Boards without an auto-reset circuit (or with the UART pulled) can sit at several mA — measure your board, don't trust the chip datasheet."}},
  {"@type":"Question","name":"Does battery capacity in mAh account for voltage?","acceptedAnswer":{"@type":"Answer","text":"mAh is charge at the cell's nominal voltage. For runtime estimates at a single voltage rail, mAh is fine. If you convert between 3.7V cells and 5V packs, use Wh (mAh × V / 1000) and account for regulator efficiency (~85-90% for a switching regulator)."}}]}
 </script>
@@ -87,12 +88,14 @@
   Active charge = 2880 × 0.5s × 80mA = 32mAh/day · Sleep charge = 24h × 10µA ≈ 0.24mAh/day → ≈48 days? No — check the math yourself with the tool: the point is <strong>active energy dominates</strong>. Double the wake time → runtime nearly halves. Cutting sleep current in half barely moves the needle.</div>
 
   <h2>FAQ</h2>
-  <div class="card"><h3>How long will a 2000mAh LiPo run an ESP32 deep-sleep sensor?</h3><p class="sub">Typical (2 wakes/min, 500ms at 80mA, 10µA sleep): months, not weeks. Active energy dominates — reduce wake time before anything else.</p></div>
+  <div class="card"><h3>How long will a 2000mAh LiPo run an ESP32 deep-sleep sensor?</h3><p class="sub">For the default scenario (2,880 wakes/day, 500ms at 80mA, 10µA sleep): about 50 days from a 2000mAh cell. Active energy dominates — reduce wake time before anything else.</p></div>
   <div class="card"><h3>What deep-sleep current does the ESP32 actually draw?</h3><p class="sub">Bare chip: ~5–10µA. Dev boards: 20–150µA (USB-serial chip + regulator). Some boards never truly sleep — measure.</p></div>
   <div class="card"><h3>Why does my battery die faster than the estimate?</h3><p class="sub">Regulator quiescent current, WiFi reconnects, cold weather, or an aging cell. The calculator shows the ideal; reality subtracts 20–50%.</p></div>
+
+<div class="okbox" style="margin-top:28px"><strong>Like these tools?</strong> They come out of <a href="https://www.tinkernews.com/#subscribe?utm_source=tools-cta&amp;utm_campaign=tools">TinkerNews</a>, a free weekly issue of the best DIY electronics builds. One email, every Sunday.</div>
 </main>
 <footer>
-  Built by <a href="https://www.tinkernews.com/?utm_source=battery&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Built by <a href="https://www.tinkernews.com/#subscribe?utm_source=battery&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
   Related: <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 pinout</a> · <a href="https://tinkernews.github.io/esp32-c3-supermini-pinout/">C3 SuperMini pinout</a> · <a href="https://tinkernews.github.io/resistor-color-code/">resistor color code</a>.
 </footer>
 <script>

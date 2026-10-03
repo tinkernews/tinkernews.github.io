@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ESP32-C3 SuperMini Pinout (16-pin) — Interactive Reference &amp; Warnings | TinkerNews</title>
-<meta name="description" content="ESP32-C3 SuperMini pinout with per-pin deep links, ADC/touch/PWM flags, strapping and safe-GPIO warnings, WiFi/BLE notes and a print-ready layout.">
-<link rel="canonical" href="https://www.tinkernews.com/tools/esp32-c3-supermini-pinout">
+<title>ESP32-C3 SuperMini Pinout (16-Pin) — TinkerNews</title>
+<meta name="description" content="ESP32-C3 SuperMini pinout with boot-strapping warnings (GPIO 2/8/9), ADC notes and flash-bus traps.">
+<link rel="canonical" href="https://tinkernews.github.io/esp32-c3-supermini-pinout/">
 <meta property="og:title" content="ESP32-C3 SuperMini Pinout (16-pin) — Interactive Reference">
 <meta property="og:description" content="Per-pin deep links, ADC/touch/PWM flags, strapping + safe-GPIO warnings. Print-ready.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://tinkernews.github.io/esp32-c3-supermini-pinout/">
 <meta property="og:image" content="https://tinkernews.github.io/og/og-c3-pinout.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://tinkernews.github.io/og/og-c3-pinout.png">
@@ -104,9 +105,11 @@
   <div class="pin"><h3>Which pins are safe at boot?</h3><p>GPIO 0, 1, 3, 4, 5, 6, 7, 10 are unconditionally safe. GPIO 2/8/9 work for outputs but keep their boot-time levels in mind; GPIO 11+ are off-limits.</p></div>
   <div class="pin"><h3>Why does my C3 not flash with something wired?</h3><p>Nine times out of ten it's GPIO 9 (BOOT) pulled by your circuit — disconnect it during flashing — or GPIO 2/8 strapped wrong.</p></div>
   <div class="pin"><h3>Can I read analog while WiFi is on?</h3><p>Yes — the C3's single ADC has no WiFi conflict (unlike the classic ESP32's ADC2). Use GPIO 0–4.</p></div>
+
+<div class="okbox" style="margin-top:28px"><strong>Like these tools?</strong> They come out of <a href="https://www.tinkernews.com/#subscribe?utm_source=tools-cta&amp;utm_campaign=tools">TinkerNews</a>, a free weekly issue of the best DIY electronics builds. One email, every Sunday.</div>
 </main>
 <footer>
-  Built by <a href="https://www.tinkernews.com/?utm_source=pinout&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
+  Built by <a href="https://www.tinkernews.com/#subscribe?utm_source=pinout&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
   Also see the <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 DevKit V1 (38-pin) pinout</a>. Data follows the Espressif ESP32-C3 datasheet; always confirm against your board's schematic.
 </footer>
 <script>
