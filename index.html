@@ -2,137 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TinkerNews — Free Weekly DIY Electronics Newsletter</title>
-<meta name="description" content="TinkerNews is a free weekly email newsletter curating the best DIY electronics builds on the web — ESP32, Arduino, Raspberry Pi, robotics and IoT projects with honest hardware notes and source links.">
-<meta property="og:title" content="TinkerNews — Free Weekly DIY Electronics Newsletter">
-<meta property="og:description" content="The best DIY electronics builds on the web, every Sunday. ESP32, Arduino, Raspberry Pi, robotics, IoT. Free.">
+<title>TinkerNews - moved to tinkernews.com</title>
+<link rel="canonical" href="https://www.tinkernews.com/">
+<meta http-equiv="refresh" content="0; url=https://www.tinkernews.com/">
+<meta name="description" content="TinkerNews now lives at tinkernews.com.">
+<meta property="og:title" content="TinkerNews - Free Weekly DIY Electronics Newsletter">
+<meta property="og:url" content="https://www.tinkernews.com/">
+<meta property="og:image" content="https://www.tinkernews.com/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://tinkernews.github.io/">
-<link rel="canonical" href="https://tinkernews.github.io/">
-<style>
-  :root { --bg:#0f1218; --card:#171b24; --text:#e9ecf3; --muted:#9aa3b2; --accent:#4f7cff; --accent2:#37c98b; --border:#252b38; --radius:14px; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
-  .wrap { max-width:960px; margin:0 auto; padding:0 22px; }
-  header { padding:64px 0 40px; text-align:center; }
-  .logo { display:inline-flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.02em; font-size:20px; }
-  .logo .dot { width:12px; height:12px; border-radius:4px; background:linear-gradient(135deg,var(--accent),var(--accent2)); }
-  h1 { font-size:clamp(30px,5vw,46px); line-height:1.15; letter-spacing:-.03em; margin:22px 0 14px; }
-  .sub { color:var(--muted); font-size:18px; max-width:620px; margin:0 auto 30px; }
-  .cta { display:inline-block; background:var(--accent); color:#fff; font-weight:650; text-decoration:none;
-         padding:15px 30px; border-radius:12px; font-size:17px; transition:transform .15s, opacity .15s; }
-  .cta:hover { transform:translateY(-2px); opacity:.94; }
-  .cta.small { padding:11px 20px; font-size:15px; }
-  .cta.ghost { background:transparent; border:1px solid var(--border); color:var(--text); }
-  .cta.green { background:var(--accent2); color:#06281a; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin:44px 0; }
-  .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:24px; }
-  .card h3 { margin:0 0 8px; font-size:17px; }
-  .card p { margin:0; color:var(--muted); font-size:14.5px; }
-  .card .tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-               color:var(--accent2); margin-bottom:10px; }
-  .stats { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:36px 0 8px; }
-  .stat { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px 22px; min-width:150px; text-align:center; }
-  .stat b { display:block; font-size:26px; letter-spacing:-.02em; }
-  .stat span { color:var(--muted); font-size:13px; }
-  section { padding:26px 0; }
-  h2 { font-size:26px; letter-spacing:-.02em; margin:0 0 6px; }
-  .muted { color:var(--muted); }
-  ul.checks { list-style:none; padding:0; margin:18px 0; }
-  ul.checks li { padding:9px 0 9px 32px; position:relative; color:var(--muted); }
-  ul.checks li::before { content:"✓"; position:absolute; left:4px; top:8px; color:var(--accent2); font-weight:700; }
-  footer { border-top:1px solid var(--border); margin-top:40px; padding:30px 0 50px; color:var(--muted); font-size:13.5px; text-align:center; }
-  footer a { color:var(--muted); }
-  a { color:var(--accent); }
-</style>
+<script>location.replace("https://www.tinkernews.com/");</script>
 </head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="logo"><span class="dot"></span> TinkerNews</div>
-    <h1>The best DIY electronics builds<br>on the web, every Sunday.</h1>
-    <p class="sub">A free weekly email newsletter for makers: hand-picked ESP32, Arduino,
-      Raspberry Pi, robotics and IoT projects — with honest hardware notes and a link to
-      every source. Read in 5 minutes. Build all week.</p>
-    <a class="cta" href="https://www.tinkernews.com/?utm_source=github_pages&amp;utm_campaign=landing">Subscribe — it's free →</a>
-  </header>
-
-  <div class="stats">
-    <div class="stat"><b>55+</b><span>issues shipped</span></div>
-    <div class="stat"><b>350+</b><span>builds curated</span></div>
-    <div class="stat"><b>3,000+</b><span>boards in our open dataset</span></div>
-    <div class="stat"><b>Weekly</b><span>every Sunday</span></div>
-  </div>
-
-  <section>
-    <h2>What lands in your inbox</h2>
-    <ul class="checks">
-      <li>3–5 real, buildable projects — every one links to schematics, code and write-ups</li>
-      <li>Honest hardware notes: we flag unfinished docs, odd power requirements and gotchas <i>before</i> you buy parts</li>
-      <li>Topics that matter to makers: ESP32, Arduino, Raspberry Pi, robotics, IoT, retro, CNC and more</li>
-      <li>No ads in the editorial, no paywall, no spam — unsubscribe in one click</li>
-    </ul>
-  </section>
-
-  <div class="grid">
-    <div class="card">
-      <div class="tag">Explore</div>
-      <h3>Boards dataset &amp; explorer</h3>
-      <p>3,000+ microcontroller and single-board computers with pinouts, chips and software
-         support — browsable at <a href="https://www.tinkernews.com/boards?utm_source=github_pages&amp;utm_campaign=landing">tinkernews.com/boards</a>,
-         or grab the <a href="https://github.com/tinkernews/boards?utm_source=github_pages">open dataset on GitHub</a>.</p>
-    </div>
-    <div class="card">
-      <div class="tag">Listen</div>
-      <h3>Podcast edition</h3>
-      <p>Every issue as a natural two-host conversation — subscribe with any podcast app via the
-         <a href="https://tinkernews.github.io/tinkernews-digest/podcast.xml?utm_source=github_pages&amp;utm_campaign=landing">RSS feed</a>.</p>
-    </div>
-    <div class="card">
-      <div class="tag">Browse</div>
-      <h3>Issue archive &amp; topic hubs</h3>
-      <p>Browse every build by topic —
-         <a href="https://www.tinkernews.com/topics/esp32?utm_source=github_pages&amp;utm_campaign=landing">ESP32</a>,
-         <a href="https://www.tinkernews.com/topics/arduino?utm_source=github_pages&amp;utm_campaign=landing">Arduino</a>,
-         <a href="https://www.tinkernews.com/topics/raspberry-pi?utm_source=github_pages&amp;utm_campaign=landing">Raspberry Pi</a>,
-         <a href="https://www.tinkernews.com/topics/robotics?utm_source=github_pages&amp;utm_campaign=landing">robotics</a>,
-         <a href="https://www.tinkernews.com/topics/iot?utm_source=github_pages&amp;utm_campaign=landing">IoT</a> —
-         at <a href="https://www.tinkernews.com/archive?utm_source=github_pages&amp;utm_campaign=landing">tinkernews.com</a>.</p>
-    </div>
-    <div class="card">
-      <div class="tag">Tools</div>
-      <h3>Free maker tools</h3>
-      <p>Start with the <a href="https://www.tinkernews.com/tools/led-resistor-calculator?utm_source=github_pages&amp;utm_campaign=landing">LED resistor calculator</a> —
-         more calculators landing soon.</p>
-    </div>
-    <div class="card">
-      <div class="tag">Share</div>
-      <h3>Got a build?</h3>
-      <p>Building something interesting? <a href="https://www.tinkernews.com/submit?utm_source=github_pages&amp;utm_campaign=landing">Submit your project</a>
-         — featured builds are shared with thousands of makers.</p>
-    </div>
-    <div class="card">
-      <div class="tag">Sponsor</div>
-      <h3>Reach hardware makers</h3>
-      <p>One clearly-labeled sponsor slot per issue. Audience: makers, hobbyists, students and
-         pro engineers. <a href="https://www.tinkernews.com/sponsor?utm_source=github_pages&amp;utm_campaign=landing">Media kit →</a></p>
-    </div>
-  </div>
-
-  <section style="text-align:center">
-    <h2>Join the makers reading TinkerNews</h2>
-    <p class="muted">Free forever. One email a week. Zero noise.</p>
-    <p style="margin-top:22px"><a class="cta green" href="https://www.tinkernews.com/?utm_source=github_pages&amp;utm_campaign=landing-cta">Get the next issue →</a></p>
-  </section>
-</div>
-
-<footer>
-  <div class="wrap">
-    TinkerNews — free weekly DIY electronics builds · <a href="https://www.tinkernews.com/?utm_source=github_pages&amp;utm_campaign=footer">tinkernews.com</a> ·
-    <a href="https://github.com/tinkernews?utm_source=github_pages">GitHub</a> ·
-    <a href="https://www.tinkernews.com/about?utm_source=github_pages">About</a>
-  </div>
-</footer>
+<body style="font-family:system-ui,sans-serif;max-width:40rem;margin:4rem auto;padding:0 1rem;color:#101418;">
+<p>TinkerNews moved to <a href="https://www.tinkernews.com/">tinkernews.com</a>. You should land there automatically.</p>
 </body>
 </html>

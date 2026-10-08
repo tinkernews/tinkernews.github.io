@@ -1,149 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ESP32-C3 SuperMini Pinout (16-Pin) — TinkerNews</title>
-<meta name="description" content="ESP32-C3 SuperMini pinout with boot-strapping warnings (GPIO 2/8/9), ADC notes and flash-bus traps.">
-<link rel="canonical" href="https://tinkernews.github.io/esp32-c3-supermini-pinout/">
-<meta property="og:title" content="ESP32-C3 SuperMini Pinout (16-pin) — Interactive Reference">
-<meta property="og:description" content="Per-pin deep links, ADC/touch/PWM flags, strapping + safe-GPIO warnings. Print-ready.">
+<title>ESP32-C3 SuperMini Pinout - moved to tinkernews.com</title>
+<link rel="canonical" href="https://www.tinkernews.com/tools/esp32-c3-supermini-pinout">
+<meta http-equiv="refresh" content="0; url=https://www.tinkernews.com/tools/esp32-c3-supermini-pinout">
+<meta name="description" content="This tool now lives at tinkernews.com/tools.">
+<meta property="og:title" content="ESP32-C3 SuperMini Pinout (16-pin) - TinkerNews">
+<meta property="og:url" content="https://www.tinkernews.com/tools/esp32-c3-supermini-pinout">
+<meta property="og:image" content="https://www.tinkernews.com/og/tools/esp32-c3-supermini-pinout.png">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://tinkernews.github.io/esp32-c3-supermini-pinout/">
-<meta property="og:image" content="https://tinkernews.github.io/og/og-c3-pinout.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://tinkernews.github.io/og/og-c3-pinout.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
- {"@type":"Question","name":"Which ESP32-C3 SuperMini pins are safe to use?","acceptedAnswer":{"@type":"Answer","text":"GPIO 0-10 are the general-purpose set, but GPIO 2, 8 and 9 are strapping pins read at reset. Avoid GPIO 11-21 (flash/PSRAM bus on modules). The safest everyday pins: 0, 1, 3, 4, 5, 6, 7, 10."}},
- {"@type":"Question","name":"Does the ESP32-C3 SuperMini have ADC2 or DAC?","acceptedAnswer":{"@type":"Answer","text":"No. The ESP32-C3 has a single ADC (ADC1, 5 channels on GPIO 0-4) and no DAC. Analog reads with WiFi on work fine because there is no ADC2 conflict."}},
- {"@type":"Question","name":"What is the boot-mode strapping pin on the ESP32-C3?","acceptedAnswer":{"@type":"Answer","text":"GPIO 9 is the boot strapping pin (BOOT button on the SuperMini). GPIO 2 must be low and GPIO 8 high at reset for normal boot — both often have on-board LEDs or pulls, so external circuits there can interfere."}}]}
-</script>
-<style>
-  :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --warn:#dc2626; --ok:#16a34a; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
-  header { background:var(--ink); color:#fff; padding:28px 20px 22px; }
-  header h1 { margin:0 0 6px; font-size:clamp(22px,4vw,34px); }
-  header p { margin:0; color:#cbd5e1; max-width:70ch; }
-  nav.crumbs { max-width:1100px; margin:0 auto; padding:10px 20px 0; font-size:14px; }
-  nav.crumbs a { color:var(--acc); text-decoration:none; }
-  main { max-width:1100px; margin:0 auto; padding:16px 20px 60px; }
-  .actions { display:flex; gap:10px; flex-wrap:wrap; margin:18px 0; }
-  .btn { display:inline-block; padding:10px 16px; border-radius:10px; background:var(--acc); color:#fff; text-decoration:none; font-weight:600; border:0; cursor:pointer; }
-  .btn.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px; margin:22px 0; }
-  .pin { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; scroll-margin-top:78px; }
-  .pin h3 { margin:0 0 6px; font-size:16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .chip { font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#3730a3; }
-  .chip.adc { background:#ecfeff; color:#0e7490; }
-  .chip.touch { background:#f0fdf4; color:#15803d; }
-  .chip.pwm { background:#fdf4ff; color:#a21caf; }
-  .chip.strap { background:#fef2f2; color:var(--warn); }
-  .chip.flash { background:#111; color:#fff; }
-  .chip.ok { background:#f0fdf4; color:var(--ok); }
-  .pin p { margin:6px 0 0; font-size:14px; color:#334155; }
-  .warnbox { border-left:4px solid var(--warn); background:#fef2f2; padding:12px 16px; border-radius:8px; margin:18px 0; }
-  .okbox { border-left:4px solid var(--ok); background:#f0fdf4; padding:12px 16px; border-radius:8px; margin:18px 0; }
-  table { border-collapse:collapse; width:100%; background:#fff; border-radius:12px; overflow:hidden; margin:18px 0; }
-  th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; font-size:14px; }
-  th { background:#f1f5f9; }
-  footer { border-top:1px solid var(--line); margin-top:40px; padding:18px 20px; color:var(--mut); font-size:14px; }
-  footer a { color:var(--acc); }
-  @media print {
-    header { background:#fff; color:#000; } header p { color:#333; }
-    .actions, nav.crumbs { display:none; }
-    .pin { break-inside:avoid; border:1px solid #999; }
-    .grid { grid-template-columns:repeat(2,1fr); }
-    a { color:#000; text-decoration:none; }
-  }
-</style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "TinkerNews Tools", "item": "https://tinkernews.github.io/tools/"}, {"@type": "ListItem", "position": 2, "name": "ESP32-C3 SuperMini Pinout", "item": "https://tinkernews.github.io/esp32-c3-supermini-pinout/"}]}</script>
+<script>location.replace("https://www.tinkernews.com/tools/esp32-c3-supermini-pinout");</script>
 </head>
-<body>
-<header>
-  <h1>ESP32-C3 SuperMini Pinout — 16-pin</h1>
-  <p>The $2 RISC-V board that took over every small build. Per-pin deep links, ADC/touch/PWM flags, and the three strapping warnings that explain 90% of "my board won't boot" posts. Print-ready.</p>
-</header>
-<nav class="crumbs"><a href="https://tinkernews.github.io/esp32-pinout/">DevKit V1 pinout</a> · <a href="https://tinkernews.github.io/tools/">All tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
-<main>
-  <div class="actions">
-    <button class="btn" onclick="window.print()">🖨 Print / Save as PDF</button>
-    <a class="btn ghost" href="#safe">Jump to safe pins</a>
-    <a class="btn ghost" href="#strapping">Strapping warnings</a>
-  </div>
-
-  <div class="warnbox" id="strapping">
-    <strong>⚠ The three rules for the C3 SuperMini.</strong><br>
-    1. <strong>GPIO 2, 8, 9 are strapping pins</strong> (GPIO 9 = BOOT button). External pulls on these can change boot mode or block flashing.<br>
-    2. <strong>GPIO 11–21 are the flash/PSRAM bus</strong> on modules — never wire them; the board won't boot or will corrupt.<br>
-    3. <strong>3.3V logic only.</strong> The C3 is not 5V-tolerant — level-shift 5V sensors before connecting.
-  </div>
-
-  <div class="okbox" id="safe">
-    <strong>✅ Safe everyday pins:</strong> GPIO 0, 1, 3, 4, 5, 6, 7, 10.
-    ADC1 is on GPIO 0–4 (no ADC2 on the C3 = no WiFi conflict — analog reads just work).
-  </div>
-
-  <h2>Pin reference</h2>
-  <div class="grid" id="pins"></div>
-
-  <h2>Quick matrices</h2>
-  <table>
-    <tr><th>Function</th><th>Pins</th></tr>
-    <tr><td>ADC1 (all WiFi-safe)</td><td>GPIO 0 (CH0), 1 (CH1), 2 (CH2), 3 (CH3), 4 (CH4)</td></tr>
-    <tr><td>Touch</td><td>None — the ESP32-C3 has no touch peripheral</td></tr>
-    <tr><td>PWM (LEDC)</td><td>Any GPIO 0–10</td></tr>
-    <tr><td>I²C defaults (Wire)</td><td>SDA = GPIO 8, SCL = GPIO 9 (⚠ both strapping — remap to 0/1 or 6/7)</td></tr>
-    <tr><td>SPI (FSPI)</td><td>SCK = 4, MISO = 5, MOSI = 6, SS = 7 (flexible via pins matrix)</td></tr>
-    <tr><td>UART0 (USB serial)</td><td>TX = GPIO 21, RX = GPIO 20 (on-module USB bridge) — free GPIO UART: any pair via matrix</td></tr>
-    <tr><td>DAC</td><td>None — no DAC on the C3 (use PWM + RC filter for audio)</td></tr>
-    <tr><td>USB native</td><td>GPIO 18 (D−) / GPIO 19 (D+) — the on-board USB-C; don't rewire</td></tr>
-    <tr><td>Strapping</td><td>GPIO 2 (low at boot), GPIO 8 (high at boot), GPIO 9 (BOOT button)</td></tr>
-  </table>
-
-  <h2 id="faq">FAQ</h2>
-  <div class="pin"><h3>Which pins are safe at boot?</h3><p>GPIO 0, 1, 3, 4, 5, 6, 7, 10 are unconditionally safe. GPIO 2/8/9 work for outputs but keep their boot-time levels in mind; GPIO 11+ are off-limits.</p></div>
-  <div class="pin"><h3>Why does my C3 not flash with something wired?</h3><p>Nine times out of ten it's GPIO 9 (BOOT) pulled by your circuit — disconnect it during flashing — or GPIO 2/8 strapped wrong.</p></div>
-  <div class="pin"><h3>Can I read analog while WiFi is on?</h3><p>Yes — the C3's single ADC has no WiFi conflict (unlike the classic ESP32's ADC2). Use GPIO 0–4.</p></div>
-
-<div class="okbox" style="margin-top:28px"><strong>Like these tools?</strong> They come out of <a href="https://www.tinkernews.com/#subscribe?utm_source=tools-cta&amp;utm_campaign=tools">TinkerNews</a>, a free weekly issue of the best DIY electronics builds. One email, every Sunday.</div>
-</main>
-<footer>
-  Built by <a href="https://www.tinkernews.com/#subscribe?utm_source=pinout&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
-  Also see the <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 DevKit V1 (38-pin) pinout</a>. Data follows the Espressif ESP32-C3 datasheet; always confirm against your board's schematic.
-</footer>
-<script>
-const PINS = [
- ["5V","L",["pwr"],"5V pin (from USB). Powers the on-board regulator — don't feed 5V into GPIOs."],
- ["GND","L",["pwr"],"Ground."],
- ["3V3","L",["pwr"],"3.3V regulated output — power small sensors only (the regulator is tiny on this board)."],
- ["GPIO4","L",["adc","pwm"],"ADC1_CH4. Safe. Good default for I²C SCL or a servo."],
- ["GPIO3","L",["adc","pwm"],"ADC1_CH3. Safe."],
- ["GPIO2","L",["adc","pwm","strap"],"⚠ ADC1_CH2 + strapping: must be LOW at reset. On-board RGB LED often sits here."],
- ["GPIO1","L",["adc","pwm"],"ADC1_CH1. Safe."],
- ["GPIO0","L",["adc","pwm"],"ADC1_CH0. Safe."],
- ["GPIO10","R",["pwm"],"Safe everyday pin."],
- ["GPIO9","R",["pwm","strap"],"⚠ BOOT strapping (the on-board BOOT button). Your circuit can block flashing."],
- ["GPIO8","R",["pwm","strap"],"⚠ Strapping: must be HIGH at reset. On-board blue LED often sits here."],
- ["GPIO7","R",["pwm"],"Safe. Default SPI SS."],
- ["GPIO6","R",["pwm"],"Safe. Default SPI MOSI."],
- ["GPIO5","R",["pwm"],"Safe. Default SPI MISO."],
- ["GND","R",["pwr"],"Ground."],
- ["3V3","R",["pwr"],"3.3V rail (second pin for wiring convenience)."]
-];
-const FLABEL = {adc:"ADC",pwm:"PWM",strap:"Strapping",flash:"FLASH ⛔",pwr:"Power"};
-const root = document.getElementById("pins");
-for (const [name, side, flags, note] of PINS) {
-  const id = name.toLowerCase().replace(/[^a-z0-9]+/g,"-") + "-" + side.toLowerCase();
-  const el = document.createElement("div");
-  el.className = "pin";
-  el.id = id;
-  el.innerHTML = `<h3><a href="#${id}" style="color:inherit">${name}</a>
-    <span class="chip">${side === "L" ? "Left" : "Right"}</span>
-    ${flags.map(f => `<span class="chip ${f}">${FLABEL[f] || f}</span>`).join("")}</h3><p>${note}</p>`;
-  root.appendChild(el);
-}
-</script>
+<body style="font-family:system-ui,sans-serif;max-width:40rem;margin:4rem auto;padding:0 1rem;color:#101418;">
+<p>This tool moved to <a href="https://www.tinkernews.com/tools/esp32-c3-supermini-pinout">tinkernews.com/tools/esp32-c3-supermini-pinout</a>. You should land there automatically.</p>
 </body>
 </html>

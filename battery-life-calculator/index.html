@@ -1,137 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IoT Battery Life Calculator (Deep-Sleep) — TinkerNews</title>
-<meta name="description" content="Duty-cycle battery life for ESP32 deep-sleep projects: mAh, wake time and sleep current in, runtime out.">
-<link rel="canonical" href="https://tinkernews.github.io/battery-life-calculator/">
-<meta property="og:title" content="IoT Battery Life Calculator — ESP32 Deep-Sleep Duty Cycle">
-<meta property="og:description" content="Runtime from battery mAh, wake duty cycle and deep-sleep current. Chip presets included.">
+<title>IoT Battery Life Calculator - moved to tinkernews.com</title>
+<link rel="canonical" href="https://www.tinkernews.com/tools/battery-life-calculator">
+<meta http-equiv="refresh" content="0; url=https://www.tinkernews.com/tools/battery-life-calculator">
+<meta name="description" content="This tool now lives at tinkernews.com/tools.">
+<meta property="og:title" content="IoT Battery Life Calculator (Deep Sleep) - TinkerNews">
+<meta property="og:url" content="https://www.tinkernews.com/tools/battery-life-calculator">
+<meta property="og:image" content="https://www.tinkernews.com/og/tools/battery-life-calculator.png">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://tinkernews.github.io/battery-life-calculator/">
-<meta property="og:image" content="https://tinkernews.github.io/og/og-battery.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://tinkernews.github.io/og/og-battery.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
- {"@type":"Question","name":"How long will a 2000mAh LiPo run an ESP32 deep-sleep sensor?","acceptedAnswer":{"@type":"Answer","text":"For the page's default scenario (2,880 wakes/day, 500ms at 80mA active, 10µA sleep, 2000mAh at 80% usable) the calculator gives about 50 days. Active energy dominates: halving wake time nearly doubles runtime, while shaving sleep current from 20µA to 10µA adds only a few percent."}},
- {"@type":"Question","name":"What deep-sleep current does the ESP32 actually draw?","acceptedAnswer":{"@type":"Answer","text":"The bare chip reaches ~5-10µA in deep sleep, but dev boards typically draw 20-150µA because of the USB-serial chip and regulator quiescent current. Boards without an auto-reset circuit (or with the UART pulled) can sit at several mA — measure your board, don't trust the chip datasheet."}},
- {"@type":"Question","name":"Does battery capacity in mAh account for voltage?","acceptedAnswer":{"@type":"Answer","text":"mAh is charge at the cell's nominal voltage. For runtime estimates at a single voltage rail, mAh is fine. If you convert between 3.7V cells and 5V packs, use Wh (mAh × V / 1000) and account for regulator efficiency (~85-90% for a switching regulator)."}}]}
-</script>
-<style>
-  :root { --ink:#1c203c; --mut:#6b7280; --acc:#14b8a6; --warn:#d97706; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:16px/1.6 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
-  header { background:var(--ink); color:#fff; padding:28px 20px 22px; }
-  header h1 { margin:0 0 6px; font-size:clamp(22px,4vw,34px); }
-  header p { margin:0; color:#cbd5e1; max-width:70ch; }
-  nav.crumbs { max-width:1100px; margin:0 auto; padding:10px 20px 0; font-size:14px; }
-  nav.crumbs a { color:var(--acc); text-decoration:none; }
-  main { max-width:1100px; margin:0 auto; padding:16px 20px 60px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin:16px 0; }
-  .row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
-  label { display:block; font-size:13px; color:var(--mut); margin-bottom:4px; }
-  input, select { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:9px; font-size:15px; }
-  .result { font-size:clamp(28px,5vw,46px); font-weight:800; margin:12px 0 4px; }
-  .sub { color:var(--mut); }
-  .bar { height:14px; border-radius:999px; background:#e2e8f0; overflow:hidden; margin:8px 0; }
-  .bar i { display:block; height:100%; background:var(--acc); }
-  .warnbox { border-left:4px solid var(--warn); background:#fffbeb; padding:12px 16px; border-radius:8px; margin:16px 0; }
-  .presets { display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 14px; }
-  .preset { padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; font-weight:600; font-size:13px; }
-  .preset.active { background:var(--acc); color:#fff; border-color:var(--acc); }
-  footer { border-top:1px solid var(--line); margin-top:40px; padding:18px 20px; color:var(--mut); font-size:14px; }
-  footer a { color:var(--acc); }
-  @media print { header { background:#fff; color:#000; } header p { color:#333; } .presets, input, select { border:1px solid #999; } }
-</style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "TinkerNews Tools", "item": "https://tinkernews.github.io/tools/"}, {"@type": "ListItem", "position": 2, "name": "IoT Battery Life Calculator", "item": "https://tinkernews.github.io/battery-life-calculator/"}]}</script>
+<script>location.replace("https://www.tinkernews.com/tools/battery-life-calculator");</script>
 </head>
-<body>
-<header>
-  <h1>IoT Battery Life Calculator — Deep-Sleep Duty Cycle</h1>
-  <p>The question every battery-powered build hits: <em>how long will this thing actually run?</em> Duty-cycle aware, with chip presets — and the assumptions spelled out so you know when not to trust it.</p>
-</header>
-<nav class="crumbs"><a href="https://tinkernews.github.io/tools/">All tools</a> · <a href="https://www.tinkernews.com/">TinkerNews</a></nav>
-<main>
-  <div class="card">
-    <strong>Chip presets</strong> (fills sleep/active currents — adjust freely):
-    <div class="presets" id="presets">
-      <button class="preset active" data-sleep="10" data-active="80">ESP32 (WROOM)</button>
-      <button class="preset" data-sleep="5" data-active="35">ESP32-C3 SuperMini</button>
-      <button class="preset" data-sleep="2" data-active="12">RP2040 / Pico (dormant)</button>
-      <button class="preset" data-sleep="20" data-active="12">Arduino Pro Mini 3.3V</button>
-      <button class="preset" data-sleep="150" data-active="80">Dev board w/ USB-UART (worst case)</button>
-    </div>
-    <div class="row">
-      <div><label>Battery capacity (mAh)</label><input id="mah" type="number" value="2000" min="1"></div>
-      <div><label>Active current (mA)</label><input id="active" type="number" value="80" step="0.1" min="0"></div>
-      <div><label>Wake time per cycle (ms)</label><input id="wake" type="number" value="500" min="1"></div>
-      <div><label>Wake cycles per day</label><input id="cycles" type="number" value="2880" min="1"></div>
-      <div><label>Deep-sleep current (µA)</label><input id="sleep" type="number" value="10" step="0.1" min="0"></div>
-      <div><label>Usable capacity (%)</label><input id="usable" type="number" value="80" min="1" max="100"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="result" id="result">—</div>
-    <div class="sub" id="detail">—</div>
-    <div class="bar"><i id="bar" style="width:0%"></i></div>
-    <div class="sub" id="share" style="font-size:13px"></div>
-  </div>
-
-  <div class="warnbox">
-    <strong>⚠ When NOT to use this calculator.</strong> It models a rectangular duty cycle (wake → sleep) and datasheet-typical currents. It does <em>not</em> model: regulator quiescent current (often 5–100µA — the hidden killer), battery self-discharge, cold-weather capacity loss (Li-ion can lose 20–50% at 0°C), WiFi retry storms, or brownout margin. Treat the output as an order-of-magnitude planning number and <strong>measure your board's sleep current</strong> with a µA meter before shipping.
-  </div>
-
-  <h2>Worked example</h2>
-  <div class="card sub">A soil sensor wakes every 30s (2,880×/day), reads for 500ms at 80mA, sleeps at 10µA, on a 2000mAh LiPo (80% usable):<br>
-  Active charge = 2880 × 0.5s × 80mA = 32mAh/day · Sleep charge = 24h × 10µA ≈ 0.24mAh/day → ≈48 days? No — check the math yourself with the tool: the point is <strong>active energy dominates</strong>. Double the wake time → runtime nearly halves. Cutting sleep current in half barely moves the needle.</div>
-
-  <h2>FAQ</h2>
-  <div class="card"><h3>How long will a 2000mAh LiPo run an ESP32 deep-sleep sensor?</h3><p class="sub">For the default scenario (2,880 wakes/day, 500ms at 80mA, 10µA sleep): about 50 days from a 2000mAh cell. Active energy dominates — reduce wake time before anything else.</p></div>
-  <div class="card"><h3>What deep-sleep current does the ESP32 actually draw?</h3><p class="sub">Bare chip: ~5–10µA. Dev boards: 20–150µA (USB-serial chip + regulator). Some boards never truly sleep — measure.</p></div>
-  <div class="card"><h3>Why does my battery die faster than the estimate?</h3><p class="sub">Regulator quiescent current, WiFi reconnects, cold weather, or an aging cell. The calculator shows the ideal; reality subtracts 20–50%.</p></div>
-
-<div class="okbox" style="margin-top:28px"><strong>Like these tools?</strong> They come out of <a href="https://www.tinkernews.com/#subscribe?utm_source=tools-cta&amp;utm_campaign=tools">TinkerNews</a>, a free weekly issue of the best DIY electronics builds. One email, every Sunday.</div>
-</main>
-<footer>
-  Built by <a href="https://www.tinkernews.com/#subscribe?utm_source=battery&amp;utm_campaign=tools">TinkerNews</a> — a free weekly roundup of DIY electronics builds (ESP32, Arduino, Raspberry Pi, robotics, IoT).
-  Related: <a href="https://tinkernews.github.io/esp32-pinout/">ESP32 pinout</a> · <a href="https://tinkernews.github.io/esp32-c3-supermini-pinout/">C3 SuperMini pinout</a> · <a href="https://tinkernews.github.io/resistor-color-code/">resistor color code</a>.
-</footer>
-<script>
-const $ = id => document.getElementById(id);
-function compute() {
-  const mah = +$("mah").value, act = +$("active").value, wake = +$("wake").value,
-        cycles = +$("cycles").value, sl = +$("sleep").value, usable = +$("usable").value;
-  const activePerDay = cycles * (wake / 3600000) * act;            // mAh/day (ms → hours)
-  const sleepPerDay = (24 - cycles * wake / 3600000) * (sl / 1000); // mAh/day
-  const perDay = activePerDay + sleepPerDay;
-  const eff = mah * (usable / 100);
-  const days = perDay > 0 ? eff / perDay : Infinity;
-  const daysTxt = days === Infinity ? "∞" : days >= 365 ? (days/365).toFixed(1) + " years" : days >= 60 ? (days/30).toFixed(1) + " months" : Math.round(days) + " days";
-  $("result").textContent = daysTxt;
-  $("detail").innerHTML = `≈ <strong>${daysTxt}</strong> runtime · ${perDay.toFixed(2)} mAh/day (active ${activePerDay.toFixed(2)} + sleep ${sleepPerDay.toFixed(2)}) · total draw ≈ ${((perDay/24)).toFixed(3)} mA average` +
-    (days >= 30 ? "" : " · ⚠ short runtime — lengthen the sleep interval first");
-  const pct = Math.min(100, (activePerDay / (perDay || 1)) * 100);
-  $("bar").style.width = pct.toFixed(1) + "%";
-  $("bar").title = pct.toFixed(0) + "% of drain is active time";
-  const q = new URLSearchParams({ mah, a: act, w: wake, c: cycles, s: sl, u: usable });
-  history.replaceState(null, "", "?" + q.toString());
-  $("share").textContent = "Share this scenario: copy the page URL — the numbers are saved in it.";
-}
-for (const id of ["mah","active","wake","cycles","sleep","usable"]) $(id).addEventListener("input", compute);
-document.querySelectorAll(".preset").forEach(p => p.addEventListener("click", () => {
-  document.querySelectorAll(".preset").forEach(x => x.classList.remove("active"));
-  p.classList.add("active");
-  $("active").value = p.dataset.active;
-  $("sleep").value = p.dataset.sleep;
-  compute();
-}));
-const q = new URLSearchParams(location.search);
-for (const [id, k] of [["mah","mah"],["active","a"],["wake","w"],["cycles","c"],["sleep","s"],["usable","u"]])
-  if (q.get(k)) $(id).value = q.get(k);
-compute();
-</script>
+<body style="font-family:system-ui,sans-serif;max-width:40rem;margin:4rem auto;padding:0 1rem;color:#101418;">
+<p>This tool moved to <a href="https://www.tinkernews.com/tools/battery-life-calculator">tinkernews.com/tools/battery-life-calculator</a>. You should land there automatically.</p>
 </body>
 </html>
